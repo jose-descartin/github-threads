@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nest & Nook - Cozy Home Inspiration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #4a4a4a;
+            background-color: #faf8f5;
+        }
+
+        header {
+            background-color: #fff;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #8b7355;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4a4a4a;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #8b7355;
+        }
+
+        .hero {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: #8b7355;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #6c6c6c;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #8b7355;
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .cta-button:hover {
+            background-color: #6d5a44;
+        }
+
+        .features {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .feature-card h3 {
+            color: #8b7355;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .feature-card p {
+            color: #6c6c6c;
+        }
+
+        footer {
+            background-color: #8b7355;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+
+        .social-links {
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Nest & Nook</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#inspiration">Inspiration</a></li>
+                <li><a href="#diy">DIY Projects</a></li>
+                <li><a href="#tips">Styling Tips</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Welcome to Nest & Nook</h1>
+        <p>Your daily dose of cozy home inspiration, styling tips, and budget-friendly decor ideas. We share aesthetic room makeovers, smart space solutions, DIY projects, and curated finds to help you create a home you'll love coming back to.</p>
+        <a href="#inspiration" class="cta-button">Explore Inspiration</a>
+    </section>
+
+    <section class="features">
+        <div class="feature-card">
+            <h3>🏠 Room Makeovers</h3>
+            <p>Transform your space with our aesthetic room makeover ideas and before-after inspirations.</p>
+        </div>
+        <div class="feature-card">
+            <h3>🛠️ DIY Projects</h3>
+            <p>Get creative with budget-friendly DIY projects that add personality to your home.</p>
+        </div>
+        <div class="feature-card">
+            <h3>💡 Smart Solutions</h3>
+            <p>Discover clever space-saving solutions and organization hacks for every room.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Nest & Nook. All rights reserved.</p>
+        <div class="social-links">
+            <a href="#">Instagram</a>
+            <a href="#">Pinterest</a>
+            <a href="#">Facebook</a>
+        </div>
+    </footer>
+</body>
+</html>

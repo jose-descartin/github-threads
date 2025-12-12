@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Threads API Authorization</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .button:active {
+            transform: translateY(0);
+        }
+
+        .token-display {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .token-display.show {
+            display: block;
+        }
+
+        .token-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .token-value {
+            background: white;
+            padding: 12px;
+            border-radius: 6px;
+            border: 2px solid #e0e0e0;
+            word-break: break-all;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: #333;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .copy-button {
+            background: #4caf50;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        .copy-button:hover {
+            background: #45a049;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-size: 13px;
+            color: #856404;
+        }
+
+        .code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+
+        .instructions {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .instructions h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .instructions ol {
+            margin-left: 20px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .instructions li {
+            margin-bottom: 8px;
+        }
+
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 15px;
+            display: none;
+            border-left: 4px solid #c62828;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧵 Threads API Authorization</h1>
+        <p class="subtitle">Get your access token to post to Threads</p>
+
+        <div class="instructions">
+            <h3>📋 Before You Start:</h3>
+            <ol>
+                <li>Make sure you've added the <strong>Threads API</strong> use case to your Meta app</li>
+                <li>Add this URL to your app's <strong>Valid OAuth Redirect URIs</strong>:<br>
+                    <span class="code">https://localhost</span> (or the URL where you're hosting this page)</li>
+                <li>Have your <strong>App ID</strong> ready (from Meta App Dashboard → Settings → Basic)</li>
+            </ol>
+        </div>
+
+        <div class="section">
+            <div class="section-title">
+                <span class="step-number">1</span>
+                Enter Your App Details
+            </div>
+            
+            <div class="input-group">
+                <label for="appId">Meta App ID *</label>
+                <input type="text" id="appId" placeholder="Enter your Meta App ID">
+            </div>
+
+            <div class="input-group">
+                <label for="redirectUri">Redirect URI *</label>
+                <input type="text" id="redirectUri" value="https://hezalel.github.io/github.io/threads-auth" placeholder="https://your-domain.com/callback">
+            </div>
+
+            <div class="input-group">
+                <label for="scopeType">Permission Scope (try Basic first if getting errors)</label>
+                <select id="scopeType">
+                    <option value="full">Full Threads Permissions (Recommended)</option>
+                    <option value="basic">Basic Pages Only (For Testing)</option>
+                </select>
+            </div>
+
+            <div class="warning-box">
+                ⚠️ Make sure this redirect URI is added to your app's <strong>Use Cases → Access the Threads API → Settings → Redirect Callback URLs</strong>: <span class="code">https://hezalel.github.io/github.io/threads-auth</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">
+                <span class="step-number">2</span>
+                Authorize Your App
+            </div>
+            
+            <button class="button" onclick="startAuth()">Authorize with Facebook/Threads</button>
+
+            <div class="info-box">
+                <strong>What happens next?</strong><br>
+                You'll be redirected to Facebook to log in and grant permissions. After authorization, you'll be redirected back with an authorization code in the URL.
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">
+                <span class="step-number">3</span>
+                Exchange Code for Token
+            </div>
+
+            <div class="input-group">
+                <label for="authCode">Authorization Code (from URL after redirect)</label>
+                <input type="text" id="authCode" placeholder="Paste the 'code' parameter from the URL">
+            </div>
+
+            <div class="input-group">
+                <label for="appSecret">App Secret *</label>
+                <input type="password" id="appSecret" placeholder="Enter your Meta App Secret">
+            </div>
+
+            <button class="button" onclick="exchangeToken()">Get Access Token</button>
+
+            <div class="error-message" id="errorMessage"></div>
+
+            <div class="token-display" id="tokenDisplay">
+                <div class="token-label">✅ Your Access Token (Short-Lived):</div>
+                <div class="token-value" id="tokenValue"></div>
+                <button class="copy-button" onclick="copyToken()">📋 Copy Token</button>
+                
+                <div class="info-box" style="margin-top: 15px;">
+                    <strong>Next Steps:</strong><br>
+                    1. Save this token securely<br>
+                    2. Use this token to get your Threads User ID<br>
+                    3. Exchange this for a Long-Lived Token (60 days)
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">
+                <span class="step-number">4</span>
+                Get Long-Lived Token
+            </div>
+
+            <p style="color: #666; margin-bottom: 15px; font-size: 14px;">
+                Once you have your short-lived token, use this curl command to get a long-lived token:
+            </p>
+
+            <div style="background: #2d2d2d; color: #f8f8f2; padding: 15px; border-radius: 6px; font-family: 'Courier New', monospace; font-size: 12px; overflow-x: auto;">
+curl -X GET "https://graph.facebook.com/v21.0/oauth/access_token?grant_type=fb_exchange_token&client_id=YOUR_APP_ID&client_secret=YOUR_APP_SECRET&fb_exchange_token=YOUR_SHORT_LIVED_TOKEN"
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auto-fill authorization code from URL if present
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+            if (code) {
+                document.getElementById('authCode').value = code;
+                // Scroll to the exchange section
+                document.getElementById('authCode').scrollIntoView({ behavior: 'smooth' });
+            }
+        };
+
+        function startAuth() {
+            const appId = document.getElementById('appId').value.trim();
+            const redirectUri = document.getElementById('redirectUri').value.trim();
+            const scopeType = document.getElementById('scopeType').value;
+
+            if (!appId) {
+                showError('Please enter your App ID');
+                return;
+            }
+
+            if (!redirectUri) {
+                showError('Please enter your Redirect URI');
+                return;
+            }
+
+            // Threads API permissions - order matters!
+            const scopes = scopeType === 'basic' 
+                ? 'pages_show_list'
+                : 'pages_show_list,threads_basic,threads_content_publish';
+
+            // Construct OAuth URL
+            const authUrl = `https://www.facebook.com/v21.0/dialog/oauth?client_id=${appId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${scopes}&response_type=code`;
+
+            // Redirect to Facebook OAuth
+            window.location.href = authUrl;
+        }
+
+        async function exchangeToken() {
+            const appId = document.getElementById('appId').value.trim();
+            const appSecret = document.getElementById('appSecret').value.trim();
+            const authCode = document.getElementById('authCode').value.trim();
+            const redirectUri = document.getElementById('redirectUri').value.trim();
+
+            if (!appId || !appSecret || !authCode || !redirectUri) {
+                showError('Please fill in all required fields');
+                return;
+            }
+
+            try {
+                // Exchange code for access token
+                const tokenUrl = `https://graph.facebook.com/v21.0/oauth/access_token?client_id=${appId}&client_secret=${appSecret}&redirect_uri=${encodeURIComponent(redirectUri)}&code=${authCode}`;
+
+                const response = await fetch(tokenUrl);
+                const data = await response.json();
+
+                if (data.access_token) {
+                    document.getElementById('tokenValue').textContent = data.access_token;
+                    document.getElementById('tokenDisplay').classList.add('show');
+                    document.getElementById('errorMessage').classList.remove('show');
+                } else {
+                    showError(data.error?.message || 'Failed to get access token. Please check your credentials.');
+                }
+            } catch (error) {
+                showError('Error: ' + error.message);
+            }
+        }
+
+        function copyToken() {
+            const tokenValue = document.getElementById('tokenValue').textContent;
+            navigator.clipboard.writeText(tokenValue).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.classList.add('show');
+        }
+    </script>
+</body>
+</html>

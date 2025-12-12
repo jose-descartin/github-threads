@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post to Threads</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 700px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 32px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .config-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .config-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .image-upload {
+            border: 2px dashed #e0e0e0;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            background: #f8f9fa;
+        }
+
+        .image-upload:hover {
+            border-color: #667eea;
+            background: #f0f2ff;
+        }
+
+        .image-upload.drag-over {
+            border-color: #667eea;
+            background: #e8ebff;
+        }
+
+        #imageInput {
+            display: none;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .preview-container {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .preview-container.show {
+            display: block;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .remove-image {
+            background: #ff5252;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            margin-top: 10px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .remove-image:hover {
+            background: #ff1744;
+        }
+
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px 32px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 20px;
+        }
+
+        .button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .status-message {
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+            font-size: 14px;
+        }
+
+        .status-message.show {
+            display: block;
+        }
+
+        .status-message.success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #a5d6a7;
+        }
+
+        .status-message.error {
+            background: #ffebee;
+            color: #c62828;
+            border: 1px solid #ef9a9a;
+        }
+
+        .status-message.loading {
+            background: #e3f2fd;
+            color: #1565c0;
+            border: 1px solid #90caf9;
+        }
+
+        .info-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #856404;
+        }
+
+        .toggle-config {
+            background: transparent;
+            border: 1px solid #667eea;
+            color: #667eea;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+        .toggle-config:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .char-count {
+            text-align: right;
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .char-count.warning {
+            color: #ff9800;
+        }
+
+        .char-count.error {
+            color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧵 Post to Threads</h1>
+        <p class="subtitle">Upload an image and caption to post to your Threads account</p>
+
+        <button class="toggle-config" onclick="toggleConfig()">⚙️ Configure API Settings</button>
+
+        <div class="config-section" id="configSection" style="display: none;">
+            <div class="config-title">API Configuration</div>
+            
+            <div class="input-group">
+                <label for="apiEndpoint">API Endpoint *</label>
+                <input type="text" id="apiEndpoint" placeholder="https://your-project.vercel.app/api/post-to-threads" value="">
+            </div>
+
+            <div class="input-group">
+                <label for="threadsUserId">Threads User ID *</label>
+                <input type="text" id="threadsUserId" placeholder="25737802615825141" value="25737802615825141">
+            </div>
+
+            <div class="input-group">
+                <label for="accessToken">Access Token *</label>
+                <input type="password" id="accessToken" placeholder="Your long-lived access token">
+            </div>
+
+            <div class="info-box">
+                💡 <strong>Tip:</strong> Your credentials are only stored in your browser's memory and are never sent anywhere except directly to Meta's Threads API.
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="imageUpload">Upload Image *</label>
+            <div class="image-upload" id="dropZone" onclick="document.getElementById('imageInput').click()">
+                <div class="upload-icon">📸</div>
+                <div><strong>Click to upload</strong> or drag and drop</div>
+                <div style="font-size: 12px; color: #999; margin-top: 5px;">JPG or PNG, max 8MB</div>
+            </div>
+            <input type="file" id="imageInput" accept="image/jpeg,image/png">
+            
+            <div class="preview-container" id="previewContainer">
+                <img id="previewImage" class="preview-image" alt="Preview">
+                <button class="remove-image" onclick="removeImage()">Remove Image</button>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="caption">Caption (optional, max 500 characters)</label>
+            <textarea id="caption" placeholder="Write your caption here..." maxlength="500"></textarea>
+            <div class="char-count" id="charCount">0 / 500</div>
+        </div>
+
+        <button class="button" id="postButton" onclick="postToThreads()">Post to Threads</button>
+
+        <div class="status-message" id="statusMessage"></div>
+    </div>
+
+    <script>
+        let selectedImage = null;
+        let imageUrl = null;
+
+        // Toggle configuration section
+        function toggleConfig() {
+            const config = document.getElementById('configSection');
+            config.style.display = config.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Character counter
+        document.getElementById('caption').addEventListener('input', function() {
+            const count = this.value.length;
+            const counter = document.getElementById('charCount');
+            counter.textContent = `${count} / 500`;
+            
+            if (count > 450) {
+                counter.className = 'char-count error';
+            } else if (count > 400) {
+                counter.className = 'char-count warning';
+            } else {
+                counter.className = 'char-count';
+            }
+        });
+
+        // Drag and drop functionality
+        const dropZone = document.getElementById('dropZone');
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('drag-over');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('drag-over');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                handleImageSelect(file);
+            }
+        });
+
+        // File input handler
+        document.getElementById('imageInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                handleImageSelect(file);
+            }
+        });
+
+        function handleImageSelect(file) {
+            if (file.size > 8 * 1024 * 1024) {
+                showMessage('Image must be less than 8MB', 'error');
+                return;
+            }
+
+            selectedImage = file;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('previewImage').src = e.target.result;
+                document.getElementById('previewContainer').classList.add('show');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removeImage() {
+            selectedImage = null;
+            imageUrl = null;
+            document.getElementById('previewContainer').classList.remove('show');
+            document.getElementById('imageInput').value = '';
+        }
+
+        async function postToThreads() {
+            const apiEndpoint = document.getElementById('apiEndpoint').value.trim();
+            const userId = document.getElementById('threadsUserId').value.trim();
+            const token = document.getElementById('accessToken').value.trim();
+            const caption = document.getElementById('caption').value.trim();
+
+            // Validation
+            if (!apiEndpoint) {
+                showMessage('Please configure your API Endpoint', 'error');
+                document.getElementById('configSection').style.display = 'block';
+                return;
+            }
+
+            if (!userId || !token) {
+                showMessage('Please configure your Threads User ID and Access Token', 'error');
+                document.getElementById('configSection').style.display = 'block';
+                return;
+            }
+
+            if (!selectedImage) {
+                showMessage('Please select an image to upload', 'error');
+                return;
+            }
+
+            const postButton = document.getElementById('postButton');
+            postButton.disabled = true;
+
+            try {
+                // Step 1: Get image URL
+                showMessage('📤 Preparing image...', 'loading');
+                
+                const manualUrl = prompt('Enter the direct image URL (must be publicly accessible via HTTPS):\n\nUpload your image to imgur.com or imgbb.com first, then paste the direct link here.');
+                if (!manualUrl) {
+                    throw new Error('Image URL required');
+                }
+                
+                if (!manualUrl.startsWith('https://')) {
+                    throw new Error('Image URL must use HTTPS');
+                }
+
+                const imageUrl = manualUrl;
+
+                // Step 2: Call our Vercel API
+                showMessage('📝 Posting to Threads via API...', 'loading');
+                
+                const response = await fetch(apiEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        imageUrl: imageUrl,
+                        caption: caption,
+                        userId: userId,
+                        accessToken: token
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || data.error) {
+                    throw new Error(data.error || data.message || 'Failed to post to Threads');
+                }
+
+                // Success!
+                showMessage(`✅ ${data.message} Post ID: ${data.postId}`, 'success');
+                
+                // Reset form
+                setTimeout(() => {
+                    removeImage();
+                    document.getElementById('caption').value = '';
+                    document.getElementById('charCount').textContent = '0 / 500';
+                }, 3000);
+
+            } catch (error) {
+                showMessage(`❌ Error: ${error.message}`, 'error');
+                console.error('Error posting to Threads:', error);
+            } finally {
+                postButton.disabled = false;
+            }
+        }
+
+        function showMessage(message, type) {
+            const statusDiv = document.getElementById('statusMessage');
+            statusDiv.textContent = message;
+            statusDiv.className = `status-message show ${type}`;
+        }
+    </script>
+</body>
+</html>
