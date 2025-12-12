@@ -1,90 +1,109 @@
-# Nest & Nook
+Cash & Clear
 
-Your daily dose of cozy home inspiration, styling tips, and budget-friendly decor ideas.
+Innovative IT solutions, seamless app development, and reliable tech support for businesses and everyday users.
 
-## About
+🚀 About
 
-Nest & Nook is a home decor and lifestyle website dedicated to helping you create a home you'll love coming back to. We share aesthetic room makeovers, smart space solutions, DIY projects, and curated finds to transform your living spaces.
+Cash & Clear is a modern IT solutions company focused on delivering clear, effective, and user-friendly technology services. We specialize in:
 
-## Features
+Developing engaging and scalable applications
 
-### 🏠 Room Makeovers
-Transform your space with our aesthetic room makeover ideas and before-after inspirations.
+Solving day-to-day tech and IT-related challenges
 
-### 🔨 DIY Projects
-Get creative with budget-friendly DIY projects that add personality to your home.
+Providing digital tools and solutions that optimize productivity
 
-### 💡 Smart Solutions
-Discover clever space-saving solutions and organization hacks for every room.
+Our mission is simple: make technology easy, accessible, and impactful.
 
-### 🎨 Styling Tips
-Learn the latest trends and timeless techniques to style your home beautifully.
+✨ Features
+💻 App Development
 
-## Tech Stack
+Build responsive, intuitive, and scalable applications tailored to your goals.
 
-- **Frontend**: HTML, CSS, JavaScript
-- **Deployment**: Vercel
-- **Integrations**: Threads API for social media sharing
+🛠️ IT Support & Troubleshooting
 
-## Project Structure
+We solve a wide range of technical issues—software, hardware, connectivity, and more.
 
-```
-github.io/
+⚙️ Automation & Smart Tech Solutions
+
+Streamline workflows with integrations, automation, and custom digital tools.
+
+🔒 Security & System Optimization
+
+Improve performance and strengthen your systems with best-practice security measures.
+
+💡 Consulting & Digital Strategy
+
+Expert guidance on enhancing your tech stack, refining digital workflows, and planning new IT initiatives.
+
+🧰 Tech Stack
+
+Frontend: HTML, CSS, JavaScript
+
+Backend / API: Node.js
+
+Deployment: Vercel
+
+Integrations: API-driven services and platform SDKs
+
+📁 Project Structure
+cashandclear/
 ├── api/
-│   └── post-to-threads.js      # Threads API integration
-├── index.html                   # Homepage
-├── post-to-threads.html         # Threads posting interface
-├── threads-auth.html            # Threads authentication
-├── privacy.html                 # Privacy policy
-├── package.json                 # Project dependencies
-└── vercel.json                  # Vercel configuration
-```
+│   └── service-endpoints.js     # API logic for app & IT services
+├── index.html                    # Landing page
+├── services.html                 # Overview of IT services
+├── contact.html                  # Contact & support page
+├── privacy.html                  # Privacy policy
+├── package.json                  # Project dependencies
+└── vercel.json                   # Vercel deployment config
 
-## Getting Started
+🔧 Getting Started
+Prerequisites
 
-### Prerequisites
-- Node.js installed
-- A web browser
-- Vercel account (for deployment)
+Node.js installed
 
-### Installation
+A modern web browser
 
-1. Clone the repository:
-```bash
+Vercel account (for deployment)
+
+Installation
+
+Clone the repository:
+
 git clone https://github.com/hezalel/github.io.git
 cd github.io
-```
 
-2. Install dependencies:
-```bash
+
+Install dependencies:
+
 npm install
-```
 
-3. Open `index.html` in your browser to view the site locally.
 
-### Deployment
+Run locally by opening:
 
-The site is deployed on Vercel. Any changes pushed to the main branch will automatically trigger a new deployment.
+index.html
 
-## Social Media
+☁️ Deployment
 
-- Instagram: [@nestandnook](#)
-- Pinterest: [Nest & Nook](#)
-- Facebook: [Nest & Nook](#)
+The site is deployed on Vercel.
+Every push to the main branch automatically triggers a new deployment.
 
-## Contributing
+📱 Social Media
 
-We welcome contributions! If you have suggestions for new features or improvements, feel free to open an issue or submit a pull request.
+Instagram: @cashandclear
 
-## License
+LinkedIn: Cash & Clear IT Solutions
 
-© 2024 Nest & Nook. All rights reserved.
+Facebook: Cash & Clear
 
-## Contact
+🤝 Contributing
 
-For inquiries, please visit our [Contact page](https://github.io/contact) or reach out through our social media channels.
+We welcome contributions!
+Feel free to open an issue, suggest a feature, or submit a pull request.
 
----
+📜 License
 
-Made with ❤️ for home decor enthusiasts everywhere
+© 2024 Cash & Clear. All rights reserved.
 
+📩 Contact
+
+Visit our Contact page or reach out on social media for inquiries, support, or project discussions.
